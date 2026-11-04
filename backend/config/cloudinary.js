@@ -26,6 +26,7 @@ export const uploadToCloudinaryOrLocal = async (file, req) => {
       const result = await cloudinary.uploader.upload(file.path, {
         folder: "mishra_ji_champaran",
         resource_type: resourceType,
+        access_mode: "public",
       });
       // remove local temp file
       if (fs.existsSync(file.path)) {
