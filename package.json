@@ -1,0 +1,12 @@
+{
+  "name": "mishra-ji-champaran-wale",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "npm --prefix frontend run dev",
+    "build": "npm --prefix frontend run build",
+    "dev:backend": "npm --prefix backend run dev",
+    "start": "node backend/server.js"
+  }
+}

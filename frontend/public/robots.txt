@@ -1,0 +1,16 @@
+# Robots.txt for Mishra Ji Champaran Wale (mishrajichamparnwale.com)
+User-agent: *
+Allow: /
+Allow: /shops
+Allow: /shops/
+Allow: /images/
+
+# Disallow private admin routes & internal backend APIs from being indexed
+Disallow: /admin
+Disallow: /admin/
+Disallow: /api/
+
+# Host & Sitemap
+Host: https://mishrajichamparnwale.com
+Sitemap: https://mishrajichamparnwale.com/sitemap.xml
+
