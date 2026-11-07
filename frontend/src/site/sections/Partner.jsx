@@ -59,6 +59,7 @@ export default function Partner() {
 
   return (
     <section id="partners" ref={ref} className="relative overflow-hidden bg-cream py-24 lg:py-32">
+      <div id="shops" className="sr-only" aria-hidden="true" />
       <div aria-hidden="true" className="dot-grid absolute left-8 top-16 hidden h-40 w-40 opacity-50 lg:block" />
 
       <div className="relative mx-auto grid max-w-7xl items-center gap-16 px-4 sm:px-6 lg:grid-cols-2">

@@ -1,5 +1,5 @@
 import { MapPin, Phone, Mail, Heart, ExternalLink, Shield, Store, Sparkles, MessageCircle } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import Logo from "../components/Logo";
 import StoreButtons from "../components/StoreButtons";
 import { BUSINESS } from "../config";
@@ -15,6 +15,36 @@ const LINKS = [
 
 export default function Footer() {
   const year = new Date().getFullYear();
+  const location = useLocation();
+  const navigate = useNavigate();
+  const isHome = location.pathname === "/";
+
+  const handleLinkClick = (e, href) => {
+    if (!href.startsWith("#")) return;
+    e.preventDefault();
+    const id = href.replace("#", "");
+
+    if (isHome) {
+      if (id === "home") {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+        window.history.pushState(null, "", "#home");
+        return;
+      }
+      const el = document.getElementById(id);
+      if (el) {
+        const navbarHeight = 84;
+        const elementPosition = el.getBoundingClientRect().top + window.scrollY;
+        const offsetPosition = elementPosition - navbarHeight;
+        window.scrollTo({
+          top: Math.max(0, offsetPosition),
+          behavior: "smooth",
+        });
+        window.history.pushState(null, "", href);
+      }
+    } else {
+      navigate(`/${href}`);
+    }
+  };
 
   return (
     <footer className="relative overflow-hidden bg-[#070c22] pt-16 text-white border-t border-white/5">
@@ -104,7 +134,8 @@ export default function Footer() {
               <li key={l.href}>
                 <a
                   href={l.href}
-                  className="text-sm font-medium text-white/70 transition-colors hover:text-brand flex items-center gap-1.5"
+                  onClick={(e) => handleLinkClick(e, l.href)}
+                  className="text-sm font-medium text-white/70 transition-colors hover:text-brand flex items-center gap-1.5 cursor-pointer"
                 >
                   <span className="h-1 w-1 rounded-full bg-brand/40" />
                   {l.label}

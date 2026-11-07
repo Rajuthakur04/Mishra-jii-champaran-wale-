@@ -1,8 +1,22 @@
+import { Link, useLocation } from "react-router-dom";
+
 export default function Logo({ light = false, className = "", variant = "standard" }) {
+  const location = useLocation();
+  const isHome = location.pathname === "/";
+
+  const handleClick = (e) => {
+    if (isHome) {
+      e.preventDefault();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      window.history.pushState(null, "", "#home");
+    }
+  };
+
   if (variant === "full") {
     return (
-      <a
-        href="#home"
+      <Link
+        to="/#home"
+        onClick={handleClick}
         aria-label="Mishra Ji Champaran Wale — back to top"
         className={`group inline-block ${className}`}
       >
@@ -11,13 +25,14 @@ export default function Logo({ light = false, className = "", variant = "standar
           alt="Mishra Ji Champaran Wale"
           className="h-12 w-auto rounded-xl object-contain shadow-md transition-transform duration-300 group-hover:scale-105"
         />
-      </a>
+      </Link>
     );
   }
 
   return (
-    <a
-      href="#home"
+    <Link
+      to="/#home"
+      onClick={handleClick}
       aria-label="Mishra Ji Champaran Wale — back to top"
       className={`group inline-flex items-center gap-3 ${className}`}
     >
@@ -38,6 +53,6 @@ export default function Logo({ light = false, className = "", variant = "standar
           Champaran Wale
         </span>
       </span>
-    </a>
+    </Link>
   );
 }
