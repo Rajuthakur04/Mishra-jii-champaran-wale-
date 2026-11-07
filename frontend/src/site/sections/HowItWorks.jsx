@@ -11,6 +11,8 @@ const ICONS = { Smartphone, Search, Store, ShoppingBag, Bike };
 
 export default function HowItWorks() {
   const ref = useRef(null);
+  const stepsContainerRef = useRef(null);
+  const phoneWrapperRef = useRef(null);
   const screenRefs = useRef([]);
   const [active, setActive] = useState(0);
   const [motionOk] = useState(
@@ -18,19 +20,21 @@ export default function HowItWorks() {
   );
 
   useLayoutEffect(() => {
-    if (!motionOk) return;
     const ctx = gsap.context(() => {
       const mm = gsap.matchMedia();
       mm.add("(min-width: 1024px)", () => {
+        // Step active triggers
         STEPS.forEach((_, i) => {
           ScrollTrigger.create({
             trigger: `.hiw-step-${i}`,
-            start: "top 58%",
-            end: "bottom 58%",
+            start: "top 55%",
+            end: "bottom 55%",
             onEnter: () => setActive(i),
             onEnterBack: () => setActive(i),
           });
         });
+
+        // Vertical step progress line
         gsap.fromTo(
           ".hiw-progress",
           { scaleY: 0 },
@@ -38,9 +42,21 @@ export default function HowItWorks() {
             scaleY: 1,
             transformOrigin: "top center",
             ease: "none",
-            scrollTrigger: { trigger: ".hiw-steps", start: "top 58%", end: "bottom 58%", scrub: 0.4 },
+            scrollTrigger: { trigger: ".hiw-steps", start: "top 55%", end: "bottom 55%", scrub: 0.3 },
           }
         );
+
+        // Explicit GSAP Pinning for Phone Mockup (ensures rock-solid stickiness across all browsers)
+        if (phoneWrapperRef.current && stepsContainerRef.current) {
+          ScrollTrigger.create({
+            trigger: stepsContainerRef.current,
+            pin: phoneWrapperRef.current,
+            start: "top 100px",
+            end: "bottom bottom",
+            pinSpacing: false,
+            anticipatePin: 1,
+          });
+        }
       });
     }, ref);
     return () => ctx.revert();
@@ -76,10 +92,13 @@ export default function HowItWorks() {
           </p>
         </div>
 
-        <div className="mt-16 grid gap-12 lg:grid-cols-2 lg:gap-20">
+        <div ref={stepsContainerRef} className="mt-16 grid gap-12 lg:grid-cols-2 lg:gap-20 items-start relative">
           {/* ── Sticky phone (desktop) ── */}
-          <div className="relative hidden lg:block">
-            <div className="sticky top-32 flex flex-col items-center pb-10">
+          <div className="relative hidden lg:block h-full min-h-[500px]">
+            <div
+              ref={phoneWrapperRef}
+              className="sticky top-28 xl:top-32 flex flex-col items-center pb-10 w-full will-change-transform"
+            >
               <div className="relative">
                 <div
                   aria-hidden="true"

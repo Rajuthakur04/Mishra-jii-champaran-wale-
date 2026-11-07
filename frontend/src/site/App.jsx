@@ -44,7 +44,7 @@ export default function App() {
   }, []);
 
   return (
-    <div className="overflow-x-clip">
+    <div className="relative min-h-screen">
       <SEO
         title="Mishra Ji Champaran Wale — Official Website | Best Champaran Pedha & Sweets in Bagaha"
         canonicalUrl="https://mishrajichamparnwale.com/"
